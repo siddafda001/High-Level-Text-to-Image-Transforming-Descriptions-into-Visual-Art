@@ -27,3 +27,14 @@ Install the required Python packages from the `requirements.txt` file:
 
 ```bash
 pip install -r requirements.txt
+```
+
+### results
+
+- A lush garden1 with a fountain2. A grand mansion3 in the background. 
+- 1A garden is full of vibrant colors with a variety of flowers. 
+- 2A fountain made of white marble with multiple tiers. The tiers are intricately carved with various designs. 
+- 3An impressive two-story mansion with a royal exterior, white columns, and tile-made roof. The mansion has numerous windows, each adorned with white curtains.
+
+![Screenshot 2024-12-08 203350](https://github.com/user-attachments/assets/cd77871e-cfe7-4da0-8390-0558eeb37c09)
+
