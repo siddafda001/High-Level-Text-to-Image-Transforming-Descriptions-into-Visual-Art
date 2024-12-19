@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Rich Text to JSON</title>
+    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.snow.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+    <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Mirza|Roboto|Slabo+27px|Sofia|Inconsolata|Ubuntu|Akronim|Monoton&display=swap'>
+    <style>
+        html, body {
+            background-color: white;
+            margin: 0;
+        }
+
+        /* Set default font-family */
+        .ql-snow .ql-tooltip::before {
+            content: "Footnote";
+            line-height: 26px;
+            margin-right: 8px;
+        }
+
+        .ql-snow .ql-tooltip[data-mode=link]::before {
+            content: "Enter footnote:";
+        }
+
+        .row {
+            margin-top: 15px;
+            margin-left: 0px;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            color: #ffffff;
+            background-color: #2780e3;
+            border-color: #2780e3;
+        }
+
+        .btn-primary:hover {
+            color: #ffffff;
+            background-color: #1967be;
+            border-color: #1862b5;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: normal;
+            text-align: center;
+            vertical-align: middle;
+            touch-action: manipulation;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            padding: 10px 18px;
+            font-size: 15px;
+            line-height: 1.42857143;
+            border-radius: 0;
+            user-select: none;
+        }
+
+        #standalone-container {
+            width: 100%;
+            background-color: #ffffff;
+        }
+
+        #editor-container {
+            font-family: "Aref Ruqaa";
+            font-size: 18px;
+            height: 300px;
+            width: 100%;
+        }
+
+        #toolbar-container {
+            font-family: "Aref Ruqaa";
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        #json-container {
+            max-width: 720px;
+        }
+
+        /* Set dropdown font-families */
+        #toolbar-container .ql-font span[data-label="Base"]::before {
+            font-family: "Aref Ruqaa";
+        }
+
+        #toolbar-container .ql-font span[data-label="Claude Monet"]::before {
+            font-family: "Mirza";
+        }
+
+        #toolbar-container .ql-font span[data-label="Ukiyoe"]::before {
+            font-family: "Roboto";
+        }
+
+        #toolbar-container .ql-font span[data-label="Cyber Punk"]::before {
+            font-family: "Comic Sans MS";
+        }
+
+        #toolbar-container .ql-font span[data-label="Pop Art"]::before {
+            font-family: "sofia";
+        }
+
+        #toolbar-container .ql-font span[data-label="Van Gogh"]::before {
+            font-family: "slabo 27px";
+        }
+
+        #toolbar-container .ql-font span[data-label="Pixel Art"]::before {
+            font-family: "inconsolata";
+        }
+
+        #toolbar-container .ql-font span[data-label="Rembrandt"]::before {
+            font-family: "ubuntu";
+        }
+
+        #toolbar-container .ql-font span[data-label="Cubism"]::before {
+            font-family: "Akronim";
+        }
+
+        #toolbar-container .ql-font span[data-label="Neon Art"]::before {
+            font-family: "Monoton";
+        }
+
+        /* Set content font-families */
+        .ql-font-mirza {
+            font-family: "Mirza";
+        }
+
+        .ql-font-roboto {
+            font-family: "Roboto";
+        }
+
+        .ql-font-cursive {
+            font-family: "Comic Sans MS";
+        }
+
+        .ql-font-sofia {
+            font-family: "sofia";
+        }
+
+        .ql-font-slabo {
+            font-family: "slabo 27px";
+        }
+
+        .ql-font-inconsolata {
+            font-family: "inconsolata";
+        }
+
+        .ql-font-ubuntu {
+            font-family: "ubuntu";
+        }
+
+        .ql-font-Akronim {
+            font-family: "Akronim";
+        }
+
+        .ql-font-Monoton {
+            font-family: "Monoton";
+        }
+
+        .ql-color .ql-picker-options [data-value=Color-Picker] {
+            background: none !important;
+            width: 100% !important;
+            height: 20px !important;
+            text-align: center;
+        }
+
+        .ql-color .ql-picker-options [data-value=Color-Picker]:before {
+            content: 'Color Picker';
+        }
+
+        .ql-color .ql-picker-options [data-value=Color-Picker]:hover {
+            border-color: transparent !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="standalone-container">
+        <div id="toolbar-container">
+            <span class="ql-formats">
+                <select class="ql-font">
+                    <option selected>Base</option>
+                    <option value="mirza">Claude Monet</option>
+                    <option value="roboto">Ukiyoe</option>
+                    <option value="cursive">Cyber Punk</option>
+                    <option value="sofia">Pop Art</option>
+                    <option value="slabo">Van Gogh</option>
+                    <option value="inconsolata">Pixel Art</option>
+                    <option value="ubuntu">Rembrandt</option>
+                    <option value="Akronim">Cubism</option>
+                    <option value="Monoton">Neon Art</option>
+                </select>
+                <select class="ql-size">
+                    <option value="18px">Small</option>
+                    <option selected>Normal</option>
+                    <option value="32px">Large</option>
+                    <option value="50px">Huge</option>
+                </select>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-strike"></button>
+            </span>
+            <span class="ql-formats">
+                <select class="ql-color">
+                    <option value="Color-Picker"></option>
+                </select>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-link"></button>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-clean"></button>
+            </span>
+        </div>
+        <div id="editor-container" style="height:300px;"></div>
+    </div>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
+    <script>
+        // Register custom fonts with Quill
+        const Font = Quill.import('formats/font');
+        Font.whitelist = ['mirza', 'roboto', 'sofia', 'slabo', 'inconsolata', 'ubuntu', 'cursive', 'Akronim', 'Monoton'];
+        const Link = Quill.import('formats/link');
+        Link.sanitize = function(url) {
+            // modify url if desired
+            return url;
+        }
+        const SizeStyle = Quill.import('attributors/style/size');
+        SizeStyle.whitelist = ['10px', '18px', '20px', '32px', '50px', '60px', '64px', '70px'];
+        Quill.register(SizeStyle, true);
+        Quill.register(Link, true);
+        Quill.register(Font, true);
+
+        // Initialize Quill editor
+        const quill = new Quill('#editor-container', {
+            modules: {
+                toolbar: {
+                    container: '#toolbar-container',
+                },
+            },
+            theme: 'snow'
+        });
+
+        var toolbar = quill.getModule('toolbar');
+        $(toolbar.container).find('.ql-color').spectrum({
+            preferredFormat: "rgb",
+            showInput: true,
+            showInitial: true,
+            showPalette: true,
+            showSelectionPalette: true,
+            palette: [
+                ["#000", "#444", "#666", "#999", "#ccc", "#eee", "#f3f3f3", "#fff"],
+                ["#f00", "#f90", "#ff0", "#0f0", "#0ff", "#00f", "#90f", "#f0f"],
+                ["#ea9999", "#f9cb9c", "#ffe599", "#b6d7a8", "#a2c4c9", "#9fc5e8", "#b4a7d6", "#d5a6bd"],
+                ["#d9d9d9", "#ffffff"]
+            ]
+        }).on('change', function (e) {
+            var value = e.toRgbString();
+            quill.format('color', value);
+        });
+
+        // Function to get editor content
+        quill.on('text-change', function (delta, oldDelta, source) {
+            document.body._data = quill.root.innerHTML;
+        });
+
+        // Function to set editor content
+        function setQuillContents(content) {
+            quill.root.innerHTML = content;
+        }
+    </script>
+</body>
+
+</html>
